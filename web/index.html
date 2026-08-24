@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>振幅劇場 — グローバー探索可視化工房</title>
+<meta name="description" content="グローバー探索(量子探索アルゴリズム)の振幅増幅を、オラクルと拡散の半歩ずつ観察できる可視化工房。">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔦</text></svg>">
+</head>
+<body>
+
+<header class="site-header">
+  <h1>振幅劇場</h1>
+  <p class="subtitle">グローバー探索可視化工房 — 目印をおよそ √N 回の照会で照らし出す、量子の振幅増幅</p>
+</header>
+
+<main>
+
+<!-- ============================================================ 導入 -->
+<section class="intro">
+  <details open>
+    <summary><h2>グローバー探索とは</h2></summary>
+    <div class="intro-body">
+      <p>グローバー探索は、1996 年に Lov Grover が考案した量子探索アルゴリズムです。N 件の候補の中から「目印付き」の 1 件を見つけるとき、古典計算機は片っ端から調べるしかなく、平均で N/2 回、最悪で N 回の照会が必要です。量子計算機はすべての候補を<strong>重ね合わせ</strong>で同時に持ち、目印の振幅だけを干渉で少しずつ育てることで、<strong>およそ √N 回</strong>の照会で目印を見つけます。100 万件なら、100 万回ではなく約 785 回——これが「二次加速」です。</p>
+      <p>仕組みは 2 つの操作の繰り返しだけです。<strong>オラクル</strong>が目印候補の振幅の符号を反転し、<strong>拡散</strong>が全振幅を平均のまわりで反転する。すると目印の振幅だけが一回りごとに育っていきます。ただし回しすぎると振幅は逆に縮み始める——やめどきまで含めて数学が決めている、という美しいアルゴリズムです。</p>
+    </div>
+  </details>
+  <details open>
+    <summary><h2>ここでは何を可視化しているか</h2></summary>
+    <div class="intro-body">
+      <p>この劇場では、量子状態を<strong>振幅の棒グラフ</strong>としてそのまま観察できます。舞台に並ぶのは N 本の棒——各候補の符号付き振幅です。</p>
+      <ul>
+        <li><strong>オラクル(反転)</strong> — 金色の目印の棒が、軸の下へ突き落とされる瞬間</li>
+        <li><strong>拡散(増幅)</strong> — 全部の棒が破線の<strong>平均線</strong>のまわりで反転し、目印だけが大きく跳ね上がる瞬間</li>
+        <li><strong>成功確率曲線</strong> — 測定したとき目印が出る確率 sin²((2t+1)θ) の理論曲線。最適回数 t* を過ぎると確率が下がる「<strong>回りすぎ</strong>」も、そのまま曲線に現れます</li>
+      </ul>
+      <p>棒をクリックして目印を付け替え、半歩ずつ踏んで、増幅の幾何を確かめてください。</p>
+      <p class="honesty">なお、これは古典計算機による<strong>厳密シミュレーション</strong>です。量子コンピュータの動作を数学どおりに再現していますが、シミュレーション自体は N に比例した手間をかけており、量子加速そのものをここで体験しているわけではありません(それができるなら量子計算機は要りません)。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================ 操作盤 -->
+<section class="control-bar" aria-label="操作盤">
+  <label>量子ビット数
+    <select id="n-select"></select>
+  </label>
+  <span class="n-info mono" id="n-info">N = 8</span>
+  <span class="marked-info" id="marked-info">目印 1 件(棒をクリックで変更)</span>
+  <span class="spacer"></span>
+  <button id="btn-half" class="primary">半歩:次はオラクル</button>
+  <button id="btn-iter">1 反復</button>
+  <button id="btn-optimal">最適 t* まで</button>
+  <button id="btn-overshoot">回りすぎを見る</button>
+  <button id="btn-play">自動再生</button>
+  <label class="speed">速さ
+    <input type="range" id="speed" min="1" max="8" value="3">
+  </label>
+  <button id="btn-reset" class="ghost">リセット</button>
+</section>
+
+<section class="status-bar" aria-label="状態">
+  <span class="chip">反復 <b class="mono" id="st-t">0</b></span>
+  <span class="chip">オラクル照会 <b class="mono" id="st-calls">0</b></span>
+  <span class="chip gold">成功確率(実測) <b class="mono" id="st-prob">—</b></span>
+  <span class="chip">理論 P(t) <b class="mono" id="st-theory">—</b></span>
+  <span class="chip">最適 <b class="mono" id="st-tstar">t* = —</b></span>
+  <span class="chip dim">古典なら平均 <b class="mono" id="st-classical">—</b> 回</span>
+</section>
+
+<!-- ============================================================ 舞台 -->
+<section class="stage-panel">
+  <div class="panel-head">
+    <h3>振幅の舞台</h3>
+    <span class="legend">
+      <i class="sw gold"></i>目印
+      <i class="sw silver"></i>非目印
+      <i class="sw mean"></i>平均線
+      <span class="last-op" id="last-op">初期状態 — 全候補が等しい振幅 1/√N</span>
+    </span>
+  </div>
+  <canvas id="amps" height="300"></canvas>
+</section>
+
+<section class="stage-panel">
+  <div class="panel-head">
+    <h3>成功確率曲線</h3>
+    <span class="legend">
+      <i class="sw seiji"></i>理論 sin²((2t+1)θ)
+      <i class="sw gold"></i>最適 t*
+      <i class="sw shu"></i>現在
+    </span>
+  </div>
+  <svg id="curve" viewBox="0 0 900 260" preserveAspectRatio="none" aria-label="成功確率曲線"></svg>
+  <p class="curve-note">t* の先で確率は一度下がり、さらに回すと再び上がる波が続きます(回り込み)。教科書の t* ≈ (π/4)√(N/k) が指すのは第一の山です。</p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>振幅劇場 — フリート「量子・計算科学」第二号。エンジンは閉形式 sin²((2t+1)θ) との厳密一致(1e-12)・総当たり t* 照合・二実装照合で検証済み。</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

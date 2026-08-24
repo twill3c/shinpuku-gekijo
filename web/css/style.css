@@ -1,0 +1,188 @@
+/* 振幅劇場 — 舞台の闇に金のスポットライト(単一テーマの意匠として明示的に塗る) */
+
+:root {
+  --bg: #14172a;        /* 舞台の闇(濃紺) */
+  --panel: #1d2138;
+  --panel-deep: #171a2e;
+  --ink: #e8e4d8;       /* 生成りの文字 */
+  --ink-soft: #9a97a8;
+  --gold: #d9a84e;      /* 目印・スポットライト */
+  --silver: #8d93a8;    /* 非目印 */
+  --shu: #d4644a;       /* 現在位置・注意 */
+  --seiji: #7fb8a8;     /* 平均線・理論曲線 */
+  --line: #363b55;
+  --footer-clearance: 5.5rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  line-height: 1.9;
+  font-size: 15.5px;
+}
+
+.mono { font-family: Consolas, "Courier New", monospace; font-variant-numeric: tabular-nums; }
+
+/* ---- ヘッダ ---- */
+.site-header {
+  text-align: center;
+  padding: 2.2rem 1rem 1.2rem;
+  border-bottom: 3px double var(--gold);
+  background:
+    radial-gradient(ellipse 60% 100% at 50% 0%, rgba(217, 168, 78, 0.12), transparent 70%),
+    var(--panel-deep);
+}
+.site-header h1 {
+  margin: 0 0 0.3rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(217, 168, 78, 0.35);
+}
+.subtitle { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+
+main { max-width: 62rem; margin: 0 auto; padding: 1.2rem 1rem; padding-bottom: var(--footer-clearance); }
+
+/* ---- 導入 ---- */
+.intro details {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  margin: 0.9rem 0;
+  padding: 0.4rem 1.1rem;
+}
+.intro summary { cursor: pointer; list-style: none; }
+.intro summary::before { content: "▼ "; color: var(--gold); font-size: 0.8em; }
+.intro details:not([open]) summary::before { content: "▶ "; }
+.intro summary h2 { display: inline; font-size: 1.1rem; font-weight: 600; }
+.intro-body { padding: 0.2rem 0 0.6rem; }
+.intro-body p, .intro-body li { color: var(--ink); }
+.intro-body .honesty {
+  border-top: 1px dashed var(--line);
+  padding-top: 0.6rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+/* ---- 操作盤 ---- */
+.control-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.9rem;
+  margin: 1rem 0 0.6rem;
+}
+.control-bar label { font-size: 0.88rem; color: var(--ink-soft); }
+.control-bar .spacer { flex: 1; }
+.n-info { color: var(--seiji); }
+.marked-info { font-size: 0.85rem; color: var(--ink-soft); }
+
+select, button, input[type="range"] { font: inherit; }
+select {
+  background: var(--panel-deep); color: var(--ink);
+  border: 1px solid var(--line); padding: 0.25rem 0.5rem;
+}
+button {
+  background: var(--panel-deep);
+  color: var(--ink);
+  border: 1px solid var(--gold);
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+button:hover { background: rgba(217, 168, 78, 0.18); }
+button.primary { background: var(--gold); color: #14172a; font-weight: 700; }
+button.primary:hover { background: #e8bc66; }
+button.ghost { border-color: var(--line); color: var(--ink-soft); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button:focus-visible, select:focus-visible, input:focus-visible, .intro summary:focus-visible {
+  outline: 2px solid var(--seiji); outline-offset: 2px;
+}
+.speed input { vertical-align: middle; width: 6rem; accent-color: var(--gold); }
+
+/* ---- 状態 ---- */
+.status-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.6rem 0 1rem; }
+.chip {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 0.2rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.chip b { color: var(--ink); font-weight: 600; margin-left: 0.2rem; }
+.chip.gold { border-color: var(--gold); }
+.chip.gold b { color: var(--gold); }
+.chip.dim { opacity: 0.8; }
+
+/* ---- 舞台パネル ---- */
+.stage-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  margin: 1rem 0;
+  padding: 0.8rem 1rem 1rem;
+}
+.panel-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem; }
+.panel-head h3 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--gold); }
+.legend { font-size: 0.8rem; color: var(--ink-soft); display: inline-flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+.legend .sw {
+  display: inline-block; width: 0.85em; height: 0.85em; margin-right: 0.3em;
+  vertical-align: -0.08em;
+}
+.sw.gold { background: var(--gold); }
+.sw.silver { background: var(--silver); }
+.sw.shu { background: var(--shu); }
+.sw.seiji { background: var(--seiji); }
+.sw.mean { background: none; border-top: 2px dashed var(--seiji); height: 0; vertical-align: 0.3em; }
+.last-op { color: var(--seiji); }
+
+#amps {
+  display: block;
+  width: 100%;
+  height: 300px;
+  background:
+    radial-gradient(ellipse 50% 80% at 50% 0%, rgba(217, 168, 78, 0.06), transparent 70%),
+    var(--panel-deep);
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+
+#curve {
+  display: block;
+  width: 100%;
+  height: 260px;
+  background: var(--panel-deep);
+  border: 1px solid var(--line);
+}
+.curve-note { margin: 0.5rem 0 0; font-size: 0.85rem; color: var(--ink-soft); }
+
+/* ---- 下部固定フッタ(フリート標準・saijiki-lens 書式) ---- */
+.site-footer {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  border-top: 3px double var(--gold);
+  margin: 0;
+  padding: 0.45rem 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  line-height: 1.7;
+  background: var(--panel-deep);
+}
+.site-footer p { margin: 0; }
+.site-footer a { color: var(--seiji); }
+
+@media (max-width: 40rem) {
+  :root { --footer-clearance: 8rem; }
+  .site-header h1 { font-size: 1.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
