@@ -1,1 +1,11 @@
 {"v": "1.2", "ts": "2026-08-24T20:53:25+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "loop_start", "data": {"goal": "立ち上げ: scaffold v1.12.0 導入・SPEC/TEST_SPEC 記入・初期コミット", "spec_refs": ["F-01", "F-02", "F-03", "F-04", "F-05", "F-06", "F-07", "F-08", "F-09", "F-10"], "scaffold_version": "1.12.0", "agent": "claude-code"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:26+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 1, "stage_name": "s1", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:26+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 2, "stage_name": "s2", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:26+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 3, "stage_name": "s3", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:26+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 4, "stage_name": "s4", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:26+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 5, "stage_name": "s5", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:26+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 6, "stage_name": "s6", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:27+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "commit", "data": {"sha": "4ee4850", "kind": "chore", "message": "chore: scaffold v1.12.0"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:27+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "commit", "data": {"sha": "6b8cbd1", "kind": "docs", "message": "docs: SPEC/TEST_SPEC 記入"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:27+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "stage_end", "data": {"stage": 7, "stage_name": "完了", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-24T20:53:27+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "loop_end", "data": {"outcome": "success", "failure_count": 0, "summary": "scaffold 導入・SPEC(F-01..F-10)/TEST_SPEC(T-001..T-014)記入"}}
