@@ -1,0 +1,1 @@
+{"v": "1.2", "ts": "2026-08-24T20:53:25+09:00", "project": "shinpuku-gekijo", "loop_id": "loop_000", "event": "loop_start", "data": {"goal": "立ち上げ: scaffold v1.12.0 導入・SPEC/TEST_SPEC 記入・初期コミット", "spec_refs": ["F-01", "F-02", "F-03", "F-04", "F-05", "F-06", "F-07", "F-08", "F-09", "F-10"], "scaffold_version": "1.12.0", "agent": "claude-code"}}
